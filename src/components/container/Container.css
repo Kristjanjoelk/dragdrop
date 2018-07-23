@@ -1,0 +1,19 @@
+.Icontainer {
+    margin: auto;
+    width: 1080px;
+    height: 1000px;
+    position: relative;
+
+    border: 1px solid black;
+    background-color: silver;
+  }
+
+.CardContainer {
+    height: 300px;
+    width: 1080px;
+    position: absolute;
+    box-sizing: border-box;
+    padding: 25px 25px 25px 25px;
+    bottom: 0;
+    background-color: olive;
+}
