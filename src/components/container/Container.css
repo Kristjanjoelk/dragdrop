@@ -10,10 +10,10 @@
 
 .CardContainer {
     height: 300px;
-    width: 1080px;
+    width: 870px;
     position: absolute;
     box-sizing: border-box;
-    padding: 25px 25px 25px 25px;
+    
     bottom: 0;
     background-color: olive;
 }
