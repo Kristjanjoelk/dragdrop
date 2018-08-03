@@ -67,22 +67,20 @@ class Container extends Component {
         }
 
         let self = this;
-
+        let temp = null;
         console.log('this.props.container', this.props.container);
-        let newPos = this.props.container.option.inHand.map((el) => {
-            return el.id === this.state.toggledCard ? ({ 
-                cLocation: { 
-                    x: el.x + self.lastSeen.x - e.nativeEvent.x, 
-                    y: el.y + self.lastSeen.y - e.nativeEvent.y
-                },
-                pLocation: {
-                    x: 0,
-                    y: 0
-                },
-                canCancel: true,
-
-                }) : el
+        this.props.container.option.inHand.map((el) => {
+            if(el.id === this.state.toggledCard) {
+                temp = Object.assign({}, el);
+                temp.cLocation.x = el.cLocation.x + self.lastSeen.x - e.nativeEvent.x;
+                temp.cLocation.y = el.cLocation.y + self.lastSeen.y - e.nativeEvent.y
+            }
         });
+
+        if(!temp) {
+            console.log('something went terribly wrong moving card');
+            return;
+        }
         // let newPos = {
         //     x: el.x + this.lastSeen.x - e.nativeEvent.x, 
         //     y: el.y + this.lastSeen.y - e.nativeEvent.y
@@ -93,8 +91,9 @@ class Container extends Component {
         //     return i === this.state.toggledCard ? Object.assign({}, el, {x: el.x + this.lastSeen.x - e.nativeEvent.x, y: el.y + this.lastSeen.y - e.nativeEvent.y}) : el
         // })
         // });
-        console.log('onMouseMove', newPos, this.state.toggledCard);
-        todo['setCardPosition'].setCardPosition(store, newPos, this.state.toggledCard);
+        console.log('onMouseMove', temp, this.state.toggledCard);
+        todo['moveCard'].moveCard(store, temp);
+        // todo['moveCard'].setCardPosition(store, newPos, this.state.toggledCard);
 
 
 

@@ -16,6 +16,8 @@ class Card extends Component {
             y: null,
         }
 
+        this.beingDropped = false;
+
         // this.state = {
         //     position: {
         //         x: this.props.card.cLocation.x,
@@ -23,6 +25,7 @@ class Card extends Component {
         //     }
         // } 
         this.onClickCard = this.onClickCard.bind(this);
+        this.onMouseUp = this.onMouseUp.bind(this);
         // this.onMouseMove = this.onMouseMove.bind(this);
         console.log('hello from card #' + this.props.number);
     }
@@ -34,16 +37,19 @@ class Card extends Component {
             x: e.nativeEvent.x,
             y: e.nativeEvent.y
         }
-        todo['moveCard'].moveCard(store, this.props.card);
-
-
         console.log('Mouse initial Coords, x:', this.lastSeen.x, 'y:', this.lastSeen.y);
         this.props.updateMouse(this.lastSeen, this.props.card.id, this.props.status);
+        // todo['moveCard'].moveCard(store, this.props.card);
+    }
+
+    onMouseUp() {
+        console.log('Permamoving card', this.props.card);
+        todo['permaMoveCard'].permaMoveCard(store, this.props.card);
     }
 
     render() {
         return (
-            <div className='Card' onMouseDown={this.onClickCard} onMouseUp={this.onClickCard} onMouseMove={this.onMouseMove}
+            <div className='Card' onMouseDown={this.onClickCard} onMouseUp={this.onMouseUp} onMouseMove={this.onMouseMove}
             style={{position: 'absolute', left: -this.props.card.cLocation.x, top: -this.props.card.cLocation.y}}> 
             THIS IS CARD
             <br/> x : {-this.props.card.cLocation.x}

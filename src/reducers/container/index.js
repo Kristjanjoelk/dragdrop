@@ -4,13 +4,13 @@ const initState = (() => {
     const option = {
         inHand: [],
         inPlay: [],
-        inHandCounter: 0,
+        inHandCounter: 5,
         inPlayCounter: 0
     };
 
 
 
-    console.log('inside initstate');
+    // console.log('inside initstate');
     return new Container(option);
 })();
 

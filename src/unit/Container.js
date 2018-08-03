@@ -29,7 +29,8 @@ class Container {
             cLocation: {'x': -firstPos, 'y': -20}, 
             pLocation: {'x': -firstPos, 'y': -20}
         }));
-        for (let i = 1; i < length; i++) {
+        let i = 1;
+        for (i; i < length; i++) {
             cards.push(new Card({
                 id: i, 
                 cLocation: {'x': -firstPos - (i * (150 + 20)), 'y': -20 }, 
@@ -49,11 +50,35 @@ class Container {
     }
 
     moveCard(card) {
+        // card has been moved
+        // 1. update array for that card
+
+        let newArray = this.option.inHand.map((_card) => {
+            if(card.id === _card.id) {
+                return card;
+            }
+            return _card;
+        });
+
+        console.log('newArray', newArray);
+
+        // 2. update cards if new pos affects them
+
+        return {
+            inHand: newArray,
+            inPlay: this.option.inPlay,
+            inHandCounter: this.option.inHandCounter,
+            inPlayCounter: this.option.inPlayCounter
+        };
+    }
+
+
+    permaMoveCard(card) {
         // 1. decide if card should be moved
         console.log('Moving card with ', card);
         if(card.cLocation.y > 100) {
             console.log('Should move card');
-        } else {
+        } else { // detect if this is a card being dropped or not!
             console.log('should not move card');
             return -1;
         }

@@ -9,6 +9,14 @@ function moveCard(option) {
     };
 }
 
+function permaMoveCard(option) {
+    console.log('inside permaMoveCardactions!!');
+    return {
+      type: 'permaMoveCard',
+      data: new Container(option),
+    };
+}
+
 function setCardPosition(option) {
     console.log('inside setCardPosition actions!!');
     return {
@@ -19,5 +27,6 @@ function setCardPosition(option) {
   
 
 export default {
-    moveCard
+    moveCard,
+    permaMoveCard
 };

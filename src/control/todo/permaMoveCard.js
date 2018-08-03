@@ -1,20 +1,19 @@
 import actions from '../../actions';
 
-const moveCard = (store, card) => {
-    console.log('moving card todo');
+const permaMoveCard = (store, card) => {
+    console.log('permaMoveCard todo');
     if (store.getState().get('container') !== null) {
         const state = store.getState();
         const curContainer = state.get('container');
         console.log('state', state);
         if(curContainer) {
-            console.log('THE CARD IM SUPPOSED TO MOVE', card);
-            const nextContainer = curContainer.moveCard(card);
+            const nextContainer = curContainer.permaMoveCard(card);
             console.log(nextContainer);
             if(nextContainer === -1) {
                 console.log('not doing anything with new Card');
                 return;
             }
-            store.dispatch(actions.moveCard(nextContainer));
+            store.dispatch(actions.permaMoveCard(nextContainer));
         } else {
             console.log('something wrong with curContainer', curContainer);
         }
@@ -24,6 +23,6 @@ const moveCard = (store, card) => {
   
   
   export default {
-      moveCard,
+    permaMoveCard,
   };
   
