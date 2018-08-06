@@ -13,7 +13,6 @@
     width: 870px;
     position: absolute;
     box-sizing: border-box;
-    
     bottom: 0;
-    background-color: olive;
+    /* background-color: olive; */
 }

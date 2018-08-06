@@ -7,10 +7,6 @@ const initState = (() => {
         inHandCounter: 5,
         inPlayCounter: 0
     };
-
-
-
-    // console.log('inside initstate');
     return new Container(option);
 })();
 
@@ -18,6 +14,8 @@ const container = (state = initState, action) => {
     console.log('container state:', state, 'action:', action);
     switch (action.type) {
         case 'moveCard':
+            return action.data;
+        case 'permaMoveCard':
             return action.data;
         default:
             return state;

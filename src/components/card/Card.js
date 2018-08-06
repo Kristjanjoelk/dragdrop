@@ -38,12 +38,13 @@ class Card extends Component {
             y: e.nativeEvent.y
         }
         console.log('Mouse initial Coords, x:', this.lastSeen.x, 'y:', this.lastSeen.y);
-        this.props.updateMouse(this.lastSeen, this.props.card.id, this.props.status);
+        this.props.updateMouse(this.lastSeen, this.props.card.id);
         // todo['moveCard'].moveCard(store, this.props.card);
     }
 
     onMouseUp() {
         console.log('Permamoving card', this.props.card);
+        this.props.updateMouse(this.lastSeen, this.props.card.id);
         todo['permaMoveCard'].permaMoveCard(store, this.props.card);
     }
 

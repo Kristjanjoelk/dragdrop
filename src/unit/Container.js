@@ -17,24 +17,53 @@ class Container {
     constructor(option) {
       this.option = option;
       if(!this.option.inHand.length) {
-          this.option.inHand = this.generatePositions();
+          this.option.inHand = this.initPositions();
       }
     }
-    generatePositions() {
+    generatePositions(inPlay, _cards) {
+
+        let yPos = inPlay ? -200 : -20;
+        let length = _cards.length;
+        let firstPos = this.firstPos(length, true);
+
+        console.log('first pos', firstPos);
+        let cards = [];
+        cards.push(new Card({
+            id: _cards[0].id, 
+            cLocation: {'x': -firstPos, 'y': yPos}, 
+            pLocation: {'x': -firstPos, 'y': yPos}
+        }));
+        let i = 1;
+        for (i; i < length; i++) {
+            let currCard = _cards[i];
+            cards.push(new Card({
+                id: currCard.id, 
+                cLocation: {'x': -firstPos - (i * (150 + 20)), 'y': yPos }, 
+                pLocation: {'x': -firstPos - (i * (150 + 20)), 'y': yPos },
+                canCancel: currCard.canCancel
+            }));
+        }
+        console.log('cards created: ', cards);
+        return cards;
+    }
+
+    initPositions() {
+        let yPos = -20;
         let length = 5;
         let firstPos = this.firstPos(length);
         let cards = [];
         cards.push(new Card({
             id: 0, 
-            cLocation: {'x': -firstPos, 'y': -20}, 
-            pLocation: {'x': -firstPos, 'y': -20}
+            cLocation: {'x': -firstPos, 'y': yPos}, 
+            pLocation: {'x': -firstPos, 'y': yPos}
         }));
         let i = 1;
         for (i; i < length; i++) {
             cards.push(new Card({
                 id: i, 
-                cLocation: {'x': -firstPos - (i * (150 + 20)), 'y': -20 }, 
-                pLocation: {'x': -firstPos - (i * (150 + 20)), 'y': -20 }
+                cLocation: {'x': -firstPos - (i * (150 + 20)), 'y': yPos }, 
+                pLocation: {'x': -firstPos - (i * (150 + 20)), 'y': yPos },
+                canCancel: true
             }));
         }
         console.log('cards created: ', cards);
@@ -42,11 +71,11 @@ class Container {
     }
 
     firstPos(nCards, inPlay) {
-        let width = inPlay ? 1080 : 870;
+        let width = inPlay ? 1080 : 970;
         if (nCards === 1) {
-            return (width - 20) / 2;
+            return (width / 2) - 75;
         }
-        return (width - ((nCards * 170)));
+        return (width/2 - ((nCards * 170)/2));
     }
 
     moveCard(card) {
@@ -76,16 +105,17 @@ class Container {
     permaMoveCard(card) {
         // 1. decide if card should be moved
         console.log('Moving card with ', card);
-        if(card.cLocation.y > 100) {
-            console.log('Should move card');
-        } else { // detect if this is a card being dropped or not!
+        if(card.cLocation.y < 100) {
             console.log('should not move card');
             return -1;
         }
+
+        let newInPlayArray = this.generatePositions(true, this.option.inPlay.concat(card));
+        let newInHandArray = this.generatePositions(false, this.option.inHand.filter((_card) => { return _card.id !== card.id }));
         // let index = this.findHand(true);
         return {
-            inHand: this.option.inHand.filter((_card) => { return _card.id !== card.id }),
-            inPlay: this.option.inPlay.concat(card),
+            inHand: newInHandArray,
+            inPlay: newInPlayArray,
             inHandCounter: this.option.inHandCounter - 1,
             inPlayCounter: this.option.inPlayCounter + 1
         };
