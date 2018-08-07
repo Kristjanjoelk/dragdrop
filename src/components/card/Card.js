@@ -27,7 +27,7 @@ class Card extends Component {
         this.onClickCard = this.onClickCard.bind(this);
         this.onMouseUp = this.onMouseUp.bind(this);
         // this.onMouseMove = this.onMouseMove.bind(this);
-        console.log('hello from card #' + this.props.number);
+        console.log('hello from card #' + this.props.number, this.props.card);
     }
 
  
@@ -37,22 +37,30 @@ class Card extends Component {
             x: e.nativeEvent.x,
             y: e.nativeEvent.y
         }
-        console.log('Mouse initial Coords, x:', this.lastSeen.x, 'y:', this.lastSeen.y);
+        // console.log('Mouse initial Coords, x:', this.lastSeen.x, 'y:', this.lastSeen.y);
         this.props.updateMouse(this.lastSeen, this.props.card.id);
         // todo['moveCard'].moveCard(store, this.props.card);
     }
 
     onMouseUp() {
-        console.log('Permamoving card', this.props.card);
+        // console.log('Permamoving card', this.props.card);
         this.props.updateMouse(this.lastSeen, this.props.card.id);
         todo['permaMoveCard'].permaMoveCard(store, this.props.card);
     }
 
     render() {
-        return (
-            <div className='Card' onMouseDown={this.onClickCard} onMouseUp={this.onMouseUp} onMouseMove={this.onMouseMove}
+        return !this.props.card.dummy ? (
+            <div className={'Card'} onMouseDown={this.onClickCard} onMouseUp={this.onMouseUp} onMouseMove={this.onMouseMove}
             style={{position: 'absolute', left: -this.props.card.cLocation.x, top: -this.props.card.cLocation.y}}> 
             THIS IS CARD
+            <br/> x : {-this.props.card.cLocation.x}
+            <br/> y : {-this.props.card.cLocation.y}
+             </div>
+        ) :
+        (
+            <div className={'dummy'} onMouseDown={this.onClickCard} onMouseUp={this.onMouseUp} onMouseMove={this.onMouseMove}
+            style={{position: 'absolute', left: -this.props.card.cLocation.x, top: -this.props.card.cLocation.y}}> 
+            THIS IS DUMMY CARD
             <br/> x : {-this.props.card.cLocation.x}
             <br/> y : {-this.props.card.cLocation.y}
              </div>

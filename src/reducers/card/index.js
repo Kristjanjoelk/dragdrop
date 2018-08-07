@@ -13,12 +13,12 @@ const initState = (() => {
     },
     canCancel: true, // default value is true because all cards start in hand
   };
-  console.log('inside initstate');
+  // console.log('inside initstate');
   return new Card(option);
 })();
 
 const card = (state = initState, action) => {
-  console.log('card state:', state, 'action:', action);
+  // console.log('card state:', state, 'action:', action);
   switch (card.type) {
     case 'setCardPosition':
       return action.data;

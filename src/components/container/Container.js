@@ -28,7 +28,7 @@ class Container extends Component {
             x: 0,
             y: 0
         }
-        console.log('this.props.container', this.props.container);
+        // console.log('this.props.container', this.props.container);
         // this.onClickCard = this.onClickCard.bind(this);
         this.updateMouse = this.updateMouse.bind(this);
         this.onMouseMove = this.onMouseMove.bind(this);
@@ -36,20 +36,20 @@ class Container extends Component {
     }
 
     componentDidMount() {
-        this.setState({cardPositions: this.generatePositions()})
+        // this.setState({cardPositions: this.generatePositions()})
     }
 
 
     generatePositions() {
         let length = this.state.cardArray.length;
         let firstPos = this.firstPos(length);
-        console.log('firstPos', firstPos);
+        // console.log('firstPos', firstPos);
         let positions = [];
             positions.push({'x': -firstPos, 'y': -20, 'status': false});
         for(let i = 1; i < length; i++) {
             positions.push({'x': -firstPos - (i * (150 + 20)), 'y': -20, 'status': false});
         }
-        console.log('positions', positions);
+        // console.log('positions', positions);
         return positions;
     }
 
@@ -68,7 +68,8 @@ class Container extends Component {
 
         let self = this;
         let temp = null;
-        console.log('this.props.container', this.props.container);
+        // console.log('this.props.container', this.props.container);
+
         this.props.container.option.inHand.map((el) => {
             if(el.id === this.state.toggledCard) {
                 temp = Object.assign({}, el);
@@ -81,17 +82,8 @@ class Container extends Component {
             console.log('something went terribly wrong moving card');
             return;
         }
-        // let newPos = {
-        //     x: el.x + this.lastSeen.x - e.nativeEvent.x, 
-        //     y: el.y + this.lastSeen.y - e.nativeEvent.y
-        // }
-        // 2. calculated x diff and y diff to see where the mouse moved
-        // 3. apply to element
-        // this.setState({cardPositions: this.state.cardPositions.map((el, i) => {
-        //     return i === this.state.toggledCard ? Object.assign({}, el, {x: el.x + this.lastSeen.x - e.nativeEvent.x, y: el.y + this.lastSeen.y - e.nativeEvent.y}) : el
-        // })
-        // });
-        console.log('onMouseMove', temp, this.state.toggledCard);
+
+        // console.log('onMouseMove', temp, this.state.toggledCard);
         todo['moveCard'].moveCard(store, temp);
         // todo['moveCard'].setCardPosition(store, newPos, this.state.toggledCard);
 
@@ -107,39 +99,14 @@ class Container extends Component {
         // this.toggledCard = status ? cardNum : null;
         this.lastSeen.x = lastSeen.x;
         this.lastSeen.y = lastSeen.y;
-        console.log('inside updateMouse', status);
+        // console.log('inside updateMouse', status);
         this.setState({toggled: status, toggledCard: status ? cardNum : null});
-        // check if moved correctly
-        // if(!status && !inPlay) {
-        //     if(this.state.cardPositions[cardNum].y > 100) {
-        //         let copy = this.state.cardPositions.slice();
-        //         let temp = JSON.parse(JSON.stringify(copy.splice(cardNum, 1)[0]));
-                
-        //         console.log('item to keep', temp);
-        //         console.log('changing item property');
-        //         temp.status = true;
-        //         console.log('item to keep after change', temp);
-        //         console.log('item in the list:', copy[cardNum]);
-        //         console.log('copy after', copy);
-        //         this.setState({
-        //             toggled: status, 
-        //             selectedCard: cardNum,
-        //             cardsInPlay: this.state.cardsInPlay.concat(temp),
-        //             cardPositions: copy
-        //             }, () => {
-        //                 this.getNewInPlayPosition();
-        //         });
-                
-        //     }
-        // } else {
-        //     this.setState({toggled: status, selectedCard: cardNum});
-        // }
     }
 
     getNewInPlayPosition(){
         let copy = this.state.cardsInPlay.slice();
         copy[0].x = -this.firstPos(copy.length ? copy.length : 1, true);
-        console.log(copy[0]);
+        // console.log(copy[0]);
         copy[0].y = -200;
         for(let i = 1; i < copy.length; i++) {
             copy[i].x = copy[0].x - (i * (150 + 20));

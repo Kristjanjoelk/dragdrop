@@ -11,7 +11,7 @@ const initState = (() => {
 })();
 
 const container = (state = initState, action) => {
-    console.log('container state:', state, 'action:', action);
+    // console.log('container state:', state, 'action:', action);
     switch (action.type) {
         case 'moveCard':
             return action.data;
