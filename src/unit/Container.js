@@ -18,15 +18,15 @@ class Card {
 class Container {
     constructor(option) {
       this.option = option;
+
+      // Because we dont want to init after finishin all cards
       if(this.option.inHand !== -1 && !this.option.inHand.length) {
-        //   console.log('initializing hand', this.option.inHand);
           this.option.inHand = this.initPositions();
       }
       if(this.option.inHand === -1) {
         this.option.inHand = [];
       } 
       else {
-        //   console.log('waddafakk');
           this.option.inHand = this.option.inHand;
       }
     }
@@ -107,6 +107,7 @@ class Container {
         });
 
         let newInPlay = false;
+        let _hasGap = false;
 
         // #### Fancy ####
         // 1. detect if card is hovering over other cards
@@ -115,13 +116,14 @@ class Container {
         // console.log('card.x', card.cLocation.x);
         if(card.cLocation.y > 425 && card.cLocation.y < 600) {
             if(this.option.inPlay.length > 0) {
-                console.log('sweet spot!!', card.cLocation.x, this.option.inPlay[0].cLocation.x);
-                if(card.cLocation.x < this.option.inPlay[0].cLocation.x ) {
-                    newInPlay = this.generatePositions(true, this.addOneGapToInPlay(true));
-                } else {
-                    newInPlay = this.generatePositions(true, this.addOneGapToInPlay(false));
-                }
-                
+                newInPlay = this.generatePositions(this.createGapAtIndex(this.findGapIndex(card)));
+                // console.log('sweet spot!!', card.cLocation.x, this.option.inPlay[0].cLocation.x);
+                // if(card.cLocation.x < this.option.inPlay[0].cLocation.x ) {
+                //     newInPlay = this.generatePositions(true, this.addOneGapToInPlay(true));
+                // } else {
+                //     newInPlay = this.generatePositions(true, this.addOneGapToInPlay(false));
+                // }
+                _hasGap = true;
             }
         }
 
@@ -133,7 +135,8 @@ class Container {
             inHand: newArray,
             inPlay: newInPlay ? newInPlay : this.option.inPlay,
             inHandCounter: this.option.inHandCounter,
-            inPlayCounter: this.option.inPlayCounter
+            inPlayCounter: this.option.inPlayCounter,
+            hasGap: _hasGap
         };
     }
 
@@ -158,6 +161,9 @@ class Container {
     }
     
     addOneGapToInPlay(rightSide) {
+        if(this.option.inPlay.length > 1) {
+            return this.option.inPlay.slice();
+        }
         if(rightSide) {
             return this.option.inPlay.concat(new Card({option: { dummy: true }}));
         } else {
@@ -165,12 +171,30 @@ class Container {
         }
     }
 
-    // findHand(inHand) {
-    //     let arr = inHand ? this.option.inHand : this.option.inPlay;
-    //     for(let i = 0; i < arr.length; i++) {
+    findGapIndex(_card) {
+        let index = 0;
+        for(let i = 0; i < this.option.inPlay.length; i++) {
+            let currCard = this.option.inPlay[i];
+            console.log('comparing', _card.cLocation.x, 'to', currCard.cLocation.x);
+            if(_card.cLocation.x > currCard.cLocation.x) {
+                index = i + 1;
+            }
+        }
 
-    //     } 
-    // }
+        console.log('gap index should be, ', index);
+        return index;
+    }
+
+    createGapAtIndex(index) {
+        if(index === -1) {
+            console.log('index for gap is wrong, fix me');
+            return -1;
+        }
+        let newArray = this.option.inPlay.slice();
+        newArray[index] = new Card({option: { dummy: true }});
+        console.log('created gap at index', index, newArray);
+        return newArray;
+    }
   }
   
   export default Container;
