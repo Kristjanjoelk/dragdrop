@@ -28,7 +28,6 @@ class Container extends Component {
             x: 0,
             y: 0
         }
-        // console.log('this.props.container', this.props.container);
         // this.onClickCard = this.onClickCard.bind(this);
         this.updateMouse = this.updateMouse.bind(this);
         this.onMouseMove = this.onMouseMove.bind(this);
@@ -117,6 +116,8 @@ class Container extends Component {
     }
 
     render() {
+
+        console.log('this.props.container', this.props.container);
         return (
             <div className='Icontainer' onMouseMove={this.onMouseMove}>
                 { 

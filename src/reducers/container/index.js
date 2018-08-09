@@ -17,6 +17,8 @@ const container = (state = initState, action) => {
             return action.data;
         case 'permaMoveCard':
             return action.data;
+        case 'cancelCard':
+            return action.data;
         default:
             return state;
     }

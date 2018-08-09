@@ -3,15 +3,8 @@ class Card {
         this.id = option.id;
         this.cLocation = option.cLocation;
         this.pLocation = option.pLocation;
-        this.canCancel = true;
+        this.canCancel = option.canCancel;
         this.dummy = option.dummy ? option.dummy : false;
-        console.log(option);
-    //   this = {
-    //     id: option.id,
-    //     cLocation: option.cLocation,
-    //     pLocation: option.pLocation,
-    //     canCancel: true
-    //   }
     }
 }
 
@@ -40,27 +33,27 @@ class Container {
 
         // console.log('first pos', firstPos);
         let cards = [];
-        cards.push(new Card({
-            id: _cards[0].dummy ? 0 : _cards[0].id, 
-            cLocation: {'x': -firstPos, 'y': yPos}, 
-            pLocation: {'x': -firstPos, 'y': yPos},
-            canCancel: true,
-            dummy: _cards[0].dummy
-        }));
+        // cards.push(new Card({
+        //     id: _cards[0].dummy ? 0 : _cards[0].id, 
+        //     cLocation: {'x': -firstPos, 'y': yPos}, 
+        //     pLocation: {'x': -firstPos, 'y': yPos},
+        //     canCancel: _cards[0].dummy ? false : _cards[0].canCancel,
+        //     dummy: _cards[0].dummy
+        // }));
+        console.log('_CARDS', _cards);
 
-
-        let i = 1;
+        let i = 0;
         for (i; i < length; i++) {
             let currCard = _cards[i];
             cards.push(new Card({
                 id: currCard.dummy ? i : currCard.id, 
                 cLocation: {'x': -firstPos - (i * (150 + 20)), 'y': yPos }, 
                 pLocation: {'x': -firstPos - (i * (150 + 20)), 'y': yPos },
-                canCancel: currCard.canCancel,
+                canCancel: currCard.dummy ? false : currCard.canCancel,
                 dummy: currCard.dummy
             }));
         }
-        console.log('cards created: ', cards);
+        console.log('cards created from generatePositions: ', cards);
         return cards;
     }
 
@@ -72,7 +65,8 @@ class Container {
         cards.push(new Card({
             id: 0, 
             cLocation: {'x': -firstPos, 'y': yPos}, 
-            pLocation: {'x': -firstPos, 'y': yPos}
+            pLocation: {'x': -firstPos, 'y': yPos},
+            canCancel: false
         }));
         let i = 1;
         for (i; i < length; i++) {
@@ -80,7 +74,7 @@ class Container {
                 id: i, 
                 cLocation: {'x': -firstPos - (i * (150 + 20)), 'y': yPos }, 
                 pLocation: {'x': -firstPos - (i * (150 + 20)), 'y': yPos },
-                canCancel: true
+                canCancel: false
             }));
         }
         // console.log('cards created: ', cards);
@@ -114,20 +108,20 @@ class Container {
         // 2. move other cards if so
         // console.log('card.y', card.cLocation.y);
         // console.log('card.x', card.cLocation.x);
-        if(card.cLocation.y > 425 && card.cLocation.y < 600) {
+         
+        if(!this.option.hasGap && (card.cLocation.y > 425 && card.cLocation.y < 600)) {
             if(this.option.inPlay.length > 0) {
-                newInPlay = this.generatePositions(this.createGapAtIndex(this.findGapIndex(card)));
-                // console.log('sweet spot!!', card.cLocation.x, this.option.inPlay[0].cLocation.x);
-                // if(card.cLocation.x < this.option.inPlay[0].cLocation.x ) {
-                //     newInPlay = this.generatePositions(true, this.addOneGapToInPlay(true));
-                // } else {
-                //     newInPlay = this.generatePositions(true, this.addOneGapToInPlay(false));
-                // }
+                newInPlay = this.generatePositions(true, this.createGapAtIndex(this.findGapIndex(card), this.option.inPlay));
                 _hasGap = true;
             }
+        }  
+        else if(this.option.hasGap && !(card.cLocation.y > 425 && card.cLocation.y < 600)) {
+            _hasGap = false;
+            newInPlay = this.removeGap();
+        } 
+        else {
+            _hasGap = this.option.hasGap;
         }
-
-        // console.log('newArray', newArray);
 
         // 2. update cards if new pos affects them
 
@@ -145,18 +139,26 @@ class Container {
         // 1. decide if card should be moved
         // console.log('Moving card with ', card);
         if(card.cLocation.y < 100) {
-            console.log('should not move card');
-            return -1;
+            return {
+                inHand: this.generatePositions(false, this.option.inHand),
+                inPlay: this.option.hasGap ? this.removeGap() : this.option.inPlay,
+                inHandCounter: this.option.inHandCounter,
+                inPlayCounter: this.option.inPlayCounter,
+                hasGap: this.option.hasGap
+            };
         }
 
-        let newInPlayArray = this.generatePositions(true, this.option.inPlay.concat(card));
+        card.canCancel = true;
+
+        let newInPlayArray = this.option.hasGap ? this.generatePositions(true, this.removeGap(this.option.inPlay.concat(card))) : this.generatePositions(true, this.option.inPlay.concat(card));
         let newInHandArray = this.generatePositions(false, this.option.inHand.filter((_card) => { return _card.id !== card.id }));
         // let index = this.findHand(true);
         return {
             inHand: newInHandArray,
             inPlay: newInPlayArray,
             inHandCounter: this.option.inHandCounter - 1,
-            inPlayCounter: this.option.inPlayCounter + 1
+            inPlayCounter: this.option.inPlayCounter + 1,
+            hasGap: this.option.hasGap
         };
     }
     
@@ -165,35 +167,67 @@ class Container {
             return this.option.inPlay.slice();
         }
         if(rightSide) {
-            return this.option.inPlay.concat(new Card({option: { dummy: true }}));
+            return this.option.inPlay.concat(new Card({ dummy: true }));
         } else {
-            return this.option.inPlay.slice().unshift(new Card({option: { dummy: true }}))
+            return this.option.inPlay.slice().unshift(new Card({ dummy: true }))
         }
     }
-
+    // return index + 1 of the card.
     findGapIndex(_card) {
         let index = 0;
         for(let i = 0; i < this.option.inPlay.length; i++) {
             let currCard = this.option.inPlay[i];
-            console.log('comparing', _card.cLocation.x, 'to', currCard.cLocation.x);
-            if(_card.cLocation.x > currCard.cLocation.x) {
+            // console.log('comparing', _card.cLocation.x, 'to', currCard.cLocation.x);
+            if(_card.cLocation.x < currCard.cLocation.x) {
                 index = i + 1;
             }
         }
 
-        console.log('gap index should be, ', index);
+        // console.log('gap index should be, ', index);
         return index;
     }
+    createGapAtIndex(index, arr) {
+        if(index === 0) {
+            let temp = arr.slice();
+            temp.unshift(new Card({ dummy: true }));
+            // console.log('returning when index is 0', temp);
+            return temp;
+        };
+    
+        var first = arr.slice(0, index);
+        var second = arr.slice(index, arr.length);
+        first.push(new Card({ dummy: true }));
+        let temp = first.concat(second);
+        // console.log('returning when index is', index, temp);
+        return temp;
+    };
 
-    createGapAtIndex(index) {
-        if(index === -1) {
-            console.log('index for gap is wrong, fix me');
-            return -1;
+    removeGap(arr) {
+        if(arr) {
+            return arr.filter((card) => {
+                return !card.dummy;
+            });
         }
-        let newArray = this.option.inPlay.slice();
-        newArray[index] = new Card({option: { dummy: true }});
-        console.log('created gap at index', index, newArray);
-        return newArray;
+        // console.log('removing gap', this.option.inPlay);
+        return this.option.inPlay.filter((card) => {
+            return !card.dummy;
+        });
+    }
+
+    cancelCard(cardToCancel) {
+        cardToCancel.canCancel = false;
+        // if(this.option.inPlay.length > 1) {
+        //     newInPlayArray = this.generatePositions(true, this.option.inPlay.filter((card) => { return card.id !== cardToCancel.id }));
+        // } else {
+        //     newInPlayArray = this.option.inPlay.filter((card) => { return card.id !== cardToCancel.id });
+        // }
+        return {
+            inHand: this.generatePositions(false, this.option.inHand.concat(cardToCancel)),
+            inPlay: this.generatePositions(true, this.option.inPlay.filter((card) => { return card.id !== cardToCancel.id })),
+            inHandCounter: this.option.inHandCounter + 1,
+            inPlayCounter: this.option.inPlayCounter - 1,
+            hasGap: this.option.hasGap
+        };
     }
   }
   
