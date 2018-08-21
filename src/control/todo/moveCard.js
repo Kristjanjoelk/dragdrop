@@ -14,6 +14,9 @@ const moveCard = (store, card) => {
                 console.log('not doing anything with new Card');
                 return;
             }
+            if(nextContainer.inPlay === -1) {
+                nextContainer.inPlay = [];
+            }
             store.dispatch(actions.moveCard(nextContainer));
         } else {
             console.log('something wrong with curContainer', curContainer);

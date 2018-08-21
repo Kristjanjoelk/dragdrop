@@ -37,14 +37,26 @@ class Container {
       }
     }
     generatePositions(inPlay, _cards, newCard) {
-        if(!_cards.length) {
+        if(!_cards.length && !newCard) {
             return -1;
         }
         let yPos = inPlay ? -200 : -20;
-        let length = _cards.length;
+        let length = _cards.length ? _cards.length : 1;
         let firstPos = this.firstPos(length, true);
         let cards = [];
         let i = 0;
+
+        if(!_cards.length) {
+            cards.push(new Card({
+                id: newCard.id, 
+                cLocation: {'x': -firstPos, 'y': yPos }, 
+                pLocation: {'x': -firstPos, 'y': yPos },
+                canCancel: newCard.canCancel,
+                dummy: newCard.dummy,
+                color: newCard.color
+            }));
+            return cards;
+        }
 
         for (i; i < length; i++) {
             let currCard = _cards[i];
