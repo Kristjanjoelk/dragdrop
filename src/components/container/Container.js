@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Card from '../card/Card';
+import CardComponent from '../card/Card';
 import {Card as _card} from '../../unit/Card.js';
 import './Container.css';
 import store from '../../store';
@@ -32,32 +32,6 @@ class Container extends Component {
         this.updateMouse = this.updateMouse.bind(this);
         this.onMouseMove = this.onMouseMove.bind(this);
         
-    }
-
-    componentDidMount() {
-        // this.setState({cardPositions: this.generatePositions()})
-    }
-
-
-    generatePositions() {
-        let length = this.state.cardArray.length;
-        let firstPos = this.firstPos(length);
-        // console.log('firstPos', firstPos);
-        let positions = [];
-            positions.push({'x': -firstPos, 'y': -20, 'status': false});
-        for(let i = 1; i < length; i++) {
-            positions.push({'x': -firstPos - (i * (150 + 20)), 'y': -20, 'status': false});
-        }
-        // console.log('positions', positions);
-        return positions;
-    }
-
-    firstPos(nCards, inPlay) {
-        let width = inPlay ? 1080 : 870;
-        if(nCards === 1) {
-            return (width -  20)/2;
-        }
-        return (width - ((nCards * 170)));
     }
 
     onMouseMove(e) {
@@ -102,19 +76,6 @@ class Container extends Component {
         this.setState({toggled: status, toggledCard: status ? cardNum : null});
     }
 
-    getNewInPlayPosition(){
-        let copy = this.state.cardsInPlay.slice();
-        copy[0].x = -this.firstPos(copy.length ? copy.length : 1, true);
-        // console.log(copy[0]);
-        copy[0].y = -200;
-        for(let i = 1; i < copy.length; i++) {
-            copy[i].x = copy[0].x - (i * (150 + 20));
-            copy[i].y = -200;
-        }
-
-        this.setState({cardsInPlay: copy});
-    }
-
     render() {
 
         console.log('this.props.container', this.props.container);
@@ -122,13 +83,13 @@ class Container extends Component {
             <div className='Icontainer' onMouseMove={this.onMouseMove}>
                 { 
                     this.props.container.option.inPlay.map(function(position, i) {
-                        return <Card key={i.toString()} number={i} updateMouse={this.updateMouse} card={position}/>;
+                        return <CardComponent key={i.toString()} number={i} updateMouse={this.updateMouse} card={position}/>;
                     }.bind(this))
                 }
                 <div className='CardContainer'>
                 { 
                     this.props.container.option.inHand.map(function(position, i) {
-                        return <Card key={i.toString()} number={i} updateMouse={this.updateMouse} card={position}/>;
+                        return <CardComponent key={i.toString()} number={i} updateMouse={this.updateMouse} card={position}/>;
                     }.bind(this))
                 }
                 THIS IS CARD CONTAINER

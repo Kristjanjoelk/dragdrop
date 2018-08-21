@@ -3,7 +3,7 @@ import './Card.css';
 import store from '../../store';
 import todo from '../../control/todo';
 
-class Card extends Component {
+class CardComponent extends Component {
     constructor(props) {
         super(props);
         this.size = {
@@ -56,7 +56,11 @@ class Card extends Component {
     render() {
         return !this.props.card.dummy ? (
             <div className={'Card'} onMouseDown={this.onClickCard} onMouseUp={this.onMouseUp} onMouseMove={this.onMouseMove}
-            style={{position: 'absolute', left: -this.props.card.cLocation.x, top: -this.props.card.cLocation.y}}> 
+            style={{
+                position: 'absolute', 
+                left: -this.props.card.cLocation.x, 
+                top: -this.props.card.cLocation.y, 
+                backgroundColor: 'rgb(' + this.props.card.color.R + ',' + this.props.card.color.G + ',' + this.props.card.color.B +')'}}> 
             THIS IS CARD
             <br/> x : {-this.props.card.cLocation.x}
             <br/> y : {-this.props.card.cLocation.y}            
@@ -69,7 +73,10 @@ class Card extends Component {
         ) :
         (
             <div className={'dummy'} onMouseDown={this.onClickCard} onMouseUp={this.onMouseUp} onMouseMove={this.onMouseMove}
-            style={{position: 'absolute', left: -this.props.card.cLocation.x, top: -this.props.card.cLocation.y}}> 
+            style={{
+                position: 'absolute', 
+                left: -this.props.card.cLocation.x, 
+                top: -this.props.card.cLocation.y}}> 
             THIS IS DUMMY CARD
             <br/> x : {-this.props.card.cLocation.x}
             <br/> y : {-this.props.card.cLocation.y}
@@ -79,4 +86,4 @@ class Card extends Component {
     }
 }
 
-export default Card;
+export default CardComponent;
