@@ -78,7 +78,7 @@ class Container extends Component {
 
     render() {
 
-        console.log('this.props.container', this.props.container);
+        // console.log('this.props.container', this.props.container);
         return (
             <div className='Icontainer' onMouseMove={this.onMouseMove}>
                 { 

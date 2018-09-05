@@ -16,7 +16,7 @@ const permaMoveCard = (store, card) => {
             if(nextContainer.inPlay === -1) {
                 nextContainer.inPlay = [];
             }
-            store.dispatch(actions.permaMoveCard(nextContainer));
+            store.dispatch(actions.permaMoveCard(nextContainer, card));
         } else {
             // console.log('something wrong with curContainer', curContainer);
         }

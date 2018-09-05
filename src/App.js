@@ -3,23 +3,34 @@ import './App.css';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Container from './components/container/Container';
+import Login from './components/login/Login';
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+
+    console.log('asddf:', props.auth);
+  }
+
+
   render() {
     return (
       <div className='App'>
-        <Container container={this.props.container}/>
+        { this.props.auth.option.isLoggedIn && <Container container={this.props.container}/> }
+        { !this.props.auth.option.isLoggedIn && <Login/> }
       </div>
     );
   }
 }
 
 App.propTypes = {
-  container: PropTypes.object
+  container: PropTypes.object.isRequired,
+  auth: PropTypes.object.isRequired
 };
 
 const mapStateToProps = (state) => ({
-  container: state.get('container')
+  container: state.get('container'),
+  auth: state.get('auth'),
 });
 
 export default connect(mapStateToProps)(App);
