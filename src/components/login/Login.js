@@ -9,7 +9,11 @@ class Login extends Component {
     handleSubmit = (e) => {
         e.preventDefault();
         console.log('Inside handle submit mtherfcker');
-        todo['setUserName'].setUserName(store, this.username.value);
+        todo['setUserName'].setUserName(store, this.username.value, function(err, res) {
+            if(!err) {
+                todo['setInfo'].setInfo(store, 'info test test');
+            }
+        });
     };
     render() {
         return (

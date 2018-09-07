@@ -3,6 +3,7 @@ import Auth from '../../unit/Auth';
 const initState = (() => {
   const option = {
     isLoggedIn: false,
+    isInGame: false,
     name: ''
   };
   return new Auth(option);

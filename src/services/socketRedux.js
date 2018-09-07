@@ -3,19 +3,32 @@ const socketIO = function (socket) {
         return function (next) {
             return function (action) {
                 console.log('Coolio action:', action);
-                function callback(res) {
-                    console.log('RESULTS', res);
-                }
                 if (action.meta && action.meta.socket && action.meta.socket.channel) {
-                    socket.emit(action.meta.socket.channel, action, function(res) {
-                        console.log('err, res', res);
-                        let newAction = Object.assign(action, {data: { option: { isLoggedIn: res}}});
-                        console.log(newAction, action);
-                        return next(newAction);
-                    });
-                }
+                    
+                    switch (action.type) {
+                        case 'setUserName': {
+                            socket.emit(action.meta.socket.channel, action, function(res) {
+                                let newAction = Object.assign(action, {data: { option: { isLoggedIn: res}}});
+                                return next(newAction);
+                            });
+                            break;
+                        };
+                        case 'setInfo': {
+                            console.log('emitting set info', action.type);
+                            socket.emit(action.meta.socket.channel, action, function(res) {
+                                console.log('results from setInfo', res);
+                                return next(action);
+                            });
+                            break;
+                        };
+                        default:
+                            return next(action);
+                    };
 
-                
+                    
+                } else {
+                    return next(action);
+                }
             };
         };
     };

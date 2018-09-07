@@ -1,6 +1,6 @@
 import actions from '../../actions';
 
-const setUserName = (store, username) => {
+const setUserName = (store, username, callback) => {
         if (store.getState().get('auth') !== null) {
             const state = store.getState();
             const curAuth = state.get('auth');
@@ -12,15 +12,16 @@ const setUserName = (store, username) => {
                     return;
                 }
                 store.dispatch(actions.setUserName(nextAuth));
+
+                return callback(null, 'it worked');
             } else {
                 // console.log('something wrong with curContainer when setting card position', curContainer);
             }
-        }
-        return;
+        } else {}
+        return callback('it didnt work', null);
 };
 
 
 export default {
     setUserName,
 };
-

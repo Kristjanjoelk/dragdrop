@@ -1,6 +1,7 @@
 import Container from '../unit/Container';
 import Auth from '../unit/Auth';
 import Card from '../unit/Card';
+import Info from '../unit/Info';
 
 function moveCard(option) {
     return {
@@ -42,9 +43,22 @@ const setUserName = (option) => {
     };
 }
 
+function setInfo(option) {
+    return {
+        type: 'setInfo',
+        data: new Info(option),
+        meta: {
+            socket: {
+                channel: 'getinfo',
+            },
+        }
+    };
+}
+
 export default {
     moveCard,
     permaMoveCard,
     cancelCard,
-    setUserName
+    setUserName,
+    setInfo
 };

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import CardComponent from '../card/Card';
 import {Card as _card} from '../../unit/Card.js';
+import GameList from './gamelist/GameList';
 import './Container.css';
 import store from '../../store';
 import todo from '../../control/todo';
@@ -80,14 +81,18 @@ class Container extends Component {
 
         // console.log('this.props.container', this.props.container);
         return (
+            
             <div className='Icontainer' onMouseMove={this.onMouseMove}>
-                { 
-                    this.props.container.option.inPlay.map(function(position, i) {
-                        return <CardComponent key={i.toString()} number={i} updateMouse={this.updateMouse} card={position}/>;
+                { !this.props.auth.option.isInGame && 
+                    <GameList/> 
+                }
+                {   this.props.auth.option.isInGame && 
+                        this.props.container.option.inPlay.map(function(position, i) {
+                            return <CardComponent key={i.toString()} number={i} updateMouse={this.updateMouse} card={position}/>;
                     }.bind(this))
                 }
                 <div className='CardContainer'>
-                { 
+                { this.props.auth.option.isInGame &&
                     this.props.container.option.inHand.map(function(position, i) {
                         return <CardComponent key={i.toString()} number={i} updateMouse={this.updateMouse} card={position}/>;
                     }.bind(this))

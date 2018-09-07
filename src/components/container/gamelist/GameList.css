@@ -1,8 +1,9 @@
-.login-container {
+.game-list-container {
     width: 500px;
     height: 250px;
     background-color: silver;
     border: 1px solid black;
+    top: 25%;
     margin: auto;
     position: relative;
 }

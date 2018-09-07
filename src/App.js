@@ -16,7 +16,7 @@ class App extends Component {
   render() {
     return (
       <div className='App'>
-        { this.props.auth.option.isLoggedIn && <Container container={this.props.container}/> }
+        { this.props.auth.option.isLoggedIn && <Container container={this.props.container} auth={this.props.auth}/> }
         { !this.props.auth.option.isLoggedIn && <Login/> }
       </div>
     );
@@ -25,12 +25,14 @@ class App extends Component {
 
 App.propTypes = {
   container: PropTypes.object.isRequired,
-  auth: PropTypes.object.isRequired
+  auth: PropTypes.object.isRequired,
+  info: PropTypes.object.isRequired
 };
 
 const mapStateToProps = (state) => ({
   container: state.get('container'),
   auth: state.get('auth'),
+  info: state.get('info')
 });
 
 export default connect(mapStateToProps)(App);
