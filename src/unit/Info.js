@@ -3,7 +3,7 @@ class Info {
         this.option = option;
     }
 
-    setInfo(info) {
+    getInfo(info) {
         return info;
     }
 }

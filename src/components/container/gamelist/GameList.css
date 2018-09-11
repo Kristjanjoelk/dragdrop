@@ -1,9 +1,24 @@
 .game-list-container {
     width: 500px;
-    height: 250px;
+    height: auto;
     background-color: silver;
     border: 1px solid black;
     top: 25%;
     margin: auto;
     position: relative;
+
+}
+
+.game-list-container section {
+    border: 2px solid purple;
+    margin: 0 auto;
+    top: -2%;
+    right: -23%;
+    position: absolute;
+}
+
+.game-list-container li {
+    border: 0.5px solid grey;
+    left: 0;
+    list-style: none;
 }

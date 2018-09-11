@@ -11,7 +11,8 @@ class Login extends Component {
         console.log('Inside handle submit mtherfcker');
         todo['setUserName'].setUserName(store, this.username.value, function(err, res) {
             if(!err) {
-                todo['setInfo'].setInfo(store, 'info test test');
+                console.log('setting info from callback');
+                todo['getInfo'].getInfo(store, 'info test test');
             }
         });
     };

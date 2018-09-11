@@ -13,11 +13,21 @@ const socketIO = function (socket) {
                             });
                             break;
                         };
-                        case 'setInfo': {
+                        case 'getInfo': {
                             console.log('emitting set info', action.type);
                             socket.emit(action.meta.socket.channel, action, function(res) {
-                                console.log('results from setInfo', res);
-                                return next(action);
+                                let newAction = Object.assign(action, {data: { option: { gameList: res.gameList, userList: res.userList}}});
+                                console.log('new ACTION', newAction);
+                                return next(newAction);
+                            });
+                            break;
+                        };
+                        case 'createGame': {
+                            console.log('emitting create game', action.type);
+                            socket.emit(action.meta.socket.channel, action, function(res) {
+                                let newAction = Object.assign(action, {data: { option: { gameList: res.gameList, userList: res.userList}}});
+                                console.log('new ACTION', newAction);
+                                return next(newAction);
                             });
                             break;
                         };

@@ -1,6 +1,7 @@
 import Container from '../unit/Container';
 import Auth from '../unit/Auth';
 import Card from '../unit/Card';
+import Game from '../unit/Game';
 import Info from '../unit/Info';
 
 function moveCard(option) {
@@ -43,13 +44,25 @@ const setUserName = (option) => {
     };
 }
 
-function setInfo(option) {
+function getInfo(option) {
     return {
-        type: 'setInfo',
+        type: 'getInfo',
         data: new Info(option),
         meta: {
             socket: {
-                channel: 'getinfo',
+                channel: 'messagefromapp',
+            },
+        }
+    };
+}
+
+function createGame(option) {
+    return {
+        type: 'createGame',
+        data: new Game(option),
+        meta: {
+            socket: {
+                channel: 'messagefromapp',
             },
         }
     };
@@ -60,5 +73,6 @@ export default {
     permaMoveCard,
     cancelCard,
     setUserName,
-    setInfo
+    getInfo,
+    createGame
 };

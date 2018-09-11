@@ -3,14 +3,15 @@ import Info from '../../unit/Info';
 const initState = (() => {
     const option = {
         gameList: [],
+        userList: []
     };
     return new Info(option);
 })();
 
 const info = (state = initState, action) => {
-    console.log('setinfo state', state);
+    console.log('getInfo state', state);
     switch (action.type) {
-        case 'setInfo':
+        case 'getInfo':
             return action.data;
         default:
             return state;

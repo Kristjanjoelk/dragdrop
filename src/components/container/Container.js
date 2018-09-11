@@ -84,7 +84,7 @@ class Container extends Component {
             
             <div className='Icontainer' onMouseMove={this.onMouseMove}>
                 { !this.props.auth.option.isInGame && 
-                    <GameList/> 
+                    <GameList info={this.props.info}/> 
                 }
                 {   this.props.auth.option.isInGame && 
                         this.props.container.option.inPlay.map(function(position, i) {

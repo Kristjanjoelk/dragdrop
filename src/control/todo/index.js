@@ -3,7 +3,8 @@ import permaMoveCard from './permaMoveCard';
 import setCardPosition from './setCardPosition';
 import cancelCard from './cancelCard';
 import setUserName from './setUserName';
-import setInfo from './setInfo';
+import getInfo from './getInfo';
+import createGame from './createGame';
 
 export default {
     moveCard,
@@ -11,5 +12,6 @@ export default {
     permaMoveCard,
     cancelCard,
     setUserName,
-    setInfo
+    getInfo,
+    createGame
   };
