@@ -4,6 +4,7 @@ import setCardPosition from './setCardPosition';
 import cancelCard from './cancelCard';
 import setUserName from './setUserName';
 import getInfo from './getInfo';
+import setInfo from './setInfo';
 import createGame from './createGame';
 
 export default {
@@ -13,5 +14,6 @@ export default {
     cancelCard,
     setUserName,
     getInfo,
-    createGame
+    createGame,
+    setInfo
   };

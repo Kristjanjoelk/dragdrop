@@ -2,23 +2,30 @@ import React, { Component } from 'react';
 // import { browserHistory } from 'react-router';
 import store from '../../../store';
 import todo from '../../../control/todo';
+import PropTypes from 'prop-types';
 import './GameList.css';
 
-class Login extends Component {
+class GameList extends Component {
     constructor(props) {
         super(props);
         console.log('gameList props:', props);
     }
-    handleSubmit = (e) => {
+    handleCreate = (e) => {
         e.preventDefault();
         console.log('Inside handle submit for list container');
 
-        todo['createGame'].createGame(store, function(err, res) {
-            console.log('err creating game', err);
+        todo['createGame'].createGame(store, function(res) {
             console.log('res creating game', res);
         });
     };
+    componentDidCatch(error, info) {
+        // Display fallback UI
+        console.log('ERROR', error, info);
+    }
+    
+
     render() {
+        console.log('PROPS:', this.props.info.option)
         return (
 
             <div className='game-list-container'>
@@ -28,13 +35,14 @@ class Login extends Component {
                     <div>
 
                         No games are available
-                        <form onSubmit={this.handleSubmit} >
+                        <form onSubmit={this.handleCreate} >
                         <button type="submit"> Create game </button></form>
                     </div>
                 )}
-                { this.props.info.option.gameList && this.props.info.option.gameList.length && 
-                    this.props.container.option.gameList.map(function(game, i) {
-                        return <div key={i.toString()}> Game # {i} <button> Join game </button> </div>;
+                { this.props.info && this.props.info.option.gameList && this.props.info.option.gameList.length && 
+                    this.props.info.option.gameList.map(function(game, i) {
+                        return <div key={i.toString()}> Game # {i + 1}  <form onSubmit={this.handleJoin} >
+                        <button type="submit"> Join game </button></form></div>;
                     }.bind(this))
                 }
                 <section>
@@ -54,4 +62,9 @@ class Login extends Component {
     }
 }
 
-export default Login;
+GameList.propTypes = {
+    info: PropTypes.object.isRequired
+};
+  
+
+export default GameList;

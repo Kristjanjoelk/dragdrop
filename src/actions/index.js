@@ -68,11 +68,19 @@ function createGame(option) {
     };
 }
 
+function setInGame(option) {
+    return {
+        type: 'setInGame',
+        data: new Auth(option)
+    };
+}
+
 export default {
     moveCard,
     permaMoveCard,
     cancelCard,
     setUserName,
     getInfo,
-    createGame
+    createGame,
+    setInGame
 };

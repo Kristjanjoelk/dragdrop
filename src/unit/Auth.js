@@ -10,6 +10,14 @@ class Auth {
             name: username
         };
     }
+
+    setInGame() {
+        return {
+            isLoggedIn: this.option.isLoggedIn,
+            name: this.option.username,
+            isInGame: true
+        };
+    }
 }
 
 export default Auth;

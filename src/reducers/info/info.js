@@ -13,6 +13,8 @@ const info = (state = initState, action) => {
     switch (action.type) {
         case 'getInfo':
             return action.data;
+        // case 'setInfo':
+        //     return action.data;
         default:
             return state;
     }

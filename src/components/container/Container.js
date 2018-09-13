@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import CardComponent from '../card/Card';
 import {Card as _card} from '../../unit/Card.js';
+import PropTypes from 'prop-types';
 import GameList from './gamelist/GameList';
 import './Container.css';
 import store from '../../store';
@@ -105,5 +106,9 @@ class Container extends Component {
         );
     }
 }
+
+Container.propTypes = {
+    info: PropTypes.object.isRequired
+};
 
 export default Container;

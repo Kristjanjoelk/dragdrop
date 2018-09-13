@@ -8,8 +8,11 @@ const socketIO = function (socket) {
                     switch (action.type) {
                         case 'setUserName': {
                             socket.emit(action.meta.socket.channel, action, function(res) {
-                                let newAction = Object.assign(action, {data: { option: { isLoggedIn: res}}});
-                                return next(newAction);
+                                console.log('ACTION before', action);
+                                let newOption = Object.assign(action.data.option, {isLoggedIn: true});
+                                action.data.option = newOption;
+                                console.log('ACTION after', newOption);
+                                return next(action);
                             });
                             break;
                         };

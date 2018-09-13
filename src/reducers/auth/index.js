@@ -12,6 +12,7 @@ const initState = (() => {
 const reducer = (state = initState, action) => {
    switch (action.type) {
     case 'setUserName':
+    case 'setInGame':
       return action.data;
     // case reducerType.LOG_OUT:
     //   return Object.assign({}, action.data, {isLoggedIn: false});
