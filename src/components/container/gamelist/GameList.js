@@ -18,6 +18,15 @@ class GameList extends Component {
             console.log('res creating game', res);
         });
     };
+    
+    handleJoin = (e) => {
+        e.preventDefault();
+        console.log('Inside handle submit for list container, game numer:::', this.game);
+
+        todo['joinGame'].joinGame(store, this.game, function(res) {
+            console.log('res joining game', res);
+        });
+    };
     componentDidCatch(error, info) {
         // Display fallback UI
         console.log('ERROR', error, info);
@@ -42,7 +51,7 @@ class GameList extends Component {
                 { this.props.info && this.props.info.option.gameList && this.props.info.option.gameList.length && 
                     this.props.info.option.gameList.map(function(game, i) {
                         return <div key={i.toString()}> Game # {i + 1}  <form onSubmit={this.handleJoin} >
-                        <button type="submit"> Join game </button></form></div>;
+                        <button type="submit" ref={(game) => this.game = i} > Join game </button></form></div>;
                     }.bind(this))
                 }
                 <section>

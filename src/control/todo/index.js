@@ -6,6 +6,7 @@ import setUserName from './setUserName';
 import getInfo from './getInfo';
 import setInfo from './setInfo';
 import createGame from './createGame';
+import joinGame from './joinGame';
 
 export default {
     moveCard,
@@ -15,5 +16,6 @@ export default {
     setUserName,
     getInfo,
     createGame,
-    setInfo
+    setInfo,
+    joinGame
   };

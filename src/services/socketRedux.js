@@ -11,7 +11,7 @@ const socketIO = function (socket) {
                                 console.log('ACTION before', action);
                                 let newOption = Object.assign(action.data.option, {isLoggedIn: true});
                                 action.data.option = newOption;
-                                console.log('ACTION after', newOption);
+                                console.log('ACTION option after', newOption);
                                 return next(action);
                             });
                             break;
@@ -28,9 +28,24 @@ const socketIO = function (socket) {
                         case 'createGame': {
                             console.log('emitting create game', action.type);
                             socket.emit(action.meta.socket.channel, action, function(res) {
-                                let newAction = Object.assign(action, {data: { option: { gameList: res.gameList, userList: res.userList}}});
-                                console.log('new ACTION', newAction);
-                                return next(newAction);
+                                // let newAction = Object.assign(action, {data: { option: { gameList: res.gameList, userList: res.userList}}});
+                                let newOption = Object.assign(action.data.option, { gameList: res.gameList, userList: res.userList});
+                                action.data.option = newOption;
+                                console.log('new option', newOption);
+                                return next(action);
+                            });
+                            break;
+                        };
+
+                        case 'joinGame': {
+                            console.log('emitting join game', action);
+                            socket.emit(action.meta.socket.channel, action, function(res) {
+                                console.log('join game res:', res);
+                                action.data.option = {
+                                    cardsOnBoard: res.cardsOnBoard, userList: res.userList
+                                };
+                                console.log('new action', action);
+                                return next(action);
                             });
                             break;
                         };

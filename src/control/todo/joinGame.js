@@ -1,6 +1,6 @@
 import actions from '../../actions';
 
-const createGame = (store) => {
+const joinGame = (store, game) => {
     if (store.getState().get('game') !== null) {
         const state = store.getState();
 
@@ -9,8 +9,8 @@ const createGame = (store) => {
         if(curGame && curAuth) {
             console.log('curAuth', curAuth);
             const nextAuth = curAuth.setInGame();
-            const nextGame = curGame.createGame();
-            store.dispatch(actions.createGame(nextGame));
+            const nextGame = curGame.joinGame(game);
+            store.dispatch(actions.joinGame(nextGame, game));
             store.dispatch(actions.setInGame(nextAuth));
         } else {
             console.log('something wrong with curGame', curGame);
@@ -21,6 +21,6 @@ const createGame = (store) => {
   
   
   export default {
-    createGame,
+    joinGame,
   };
   

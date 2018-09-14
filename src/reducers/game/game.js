@@ -2,7 +2,8 @@ import Game from '../../unit/Game';
 
 const initState = (() => {
     const option = {
-        cardsOnBoard: []
+        cardsOnBoard: [],
+        userList: []
     };
     return new Game(option);
 })();
@@ -10,6 +11,7 @@ const initState = (() => {
 const game = (state = initState, action) => {
     switch (action.type) {
         case 'createGame':
+        case 'joinGame':
             return action.data;
         default:
             return state;

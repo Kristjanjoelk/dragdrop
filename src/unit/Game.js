@@ -6,6 +6,10 @@ class Game {
     createGame(newGame) {
         return newGame;
     }
+    
+    joinGame(newGame) {
+        return newGame;
+    }
 }
   
 export default Game;
