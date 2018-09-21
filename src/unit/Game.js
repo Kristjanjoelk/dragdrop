@@ -8,6 +8,7 @@ class Game {
     }
     
     joinGame(newGame) {
+        console.log('the NEW Gae', newGame);
         return newGame;
     }
 }

@@ -16,7 +16,14 @@ class App extends Component {
   render() {
     return (
       <div className='App'>
-        { this.props.auth.option.isLoggedIn && <Container container={this.props.container} auth={this.props.auth} info={this.props.info}/> }
+        { this.props.auth.option.isLoggedIn && 
+          <Container 
+            container={this.props.container} 
+            auth={this.props.auth} 
+            info={this.props.info}
+            game={this.props.game}
+          /> 
+        }
         { !this.props.auth.option.isLoggedIn && <Login/> }
       </div>
     );

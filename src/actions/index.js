@@ -81,6 +81,19 @@ function joinGame(option, game) {
     };
 }
 
+function generatePositions(option, game) {
+    return {
+        type: 'joinGame',
+        data: new Game(option),
+        gameNumber: game,
+        meta: {
+            socket: {
+                channel: 'messagefromapp',
+            },
+        }
+    };
+}
+
 function setInGame(option) {
     return {
         type: 'setInGame',

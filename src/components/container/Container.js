@@ -88,7 +88,7 @@ class Container extends Component {
                     <GameList info={this.props.info}/> 
                 }
                 {   this.props.auth.option.isInGame && 
-                        this.props.container.option.inPlay.map(function(position, i) {
+                        this.props.game.option.cardsOnBoard.map(function(position, i) {
                             return <CardComponent key={i.toString()} number={i} updateMouse={this.updateMouse} card={position}/>;
                     }.bind(this))
                 }
