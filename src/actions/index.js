@@ -31,28 +31,47 @@ function cancelCard(option) {
     };
 }
 
-const setUserName = (option) => {
-    console.log('setusername options:', option);
-    return {
-        type: 'setUserName',
-        data: new Auth(option),
-        meta: {
-            socket: {
-                channel: 'messagefromapp',
-            },
+const setUserName = (username, auth) => {
+    return (dispatch, getState, socket) => {
+        let data = {
+            auth: auth,
+            payload: username,
+            type: 'setUserName'
         }
+        socket.emit('messagefromapp', data, function(res) {
+            if(res) {
+                dispatch(_setUserName(auth.setUserName(username)));
+                dispatch(getInfo());
+            }
+        });
     };
 }
 
-function getInfo(option) {
+const _setUserName = (option) => {
+    return {
+        type: 'setUserName',
+        data: new Auth(option)
+    };
+}
+
+function getInfo() {
+    return (dispatch, getState, socket) => {
+        let data = {
+            type: 'getInfo'
+        }
+        socket.emit('messagefromapp', data, function(res) {
+            if(res) {
+                console.log('setting info', res);
+                dispatch(_getInfo(res));
+            }
+        });
+    };
+}
+
+function _getInfo(option) {
     return {
         type: 'getInfo',
         data: new Info(option),
-        meta: {
-            socket: {
-                channel: 'messagefromapp',
-            },
-        }
     };
 }
 
@@ -68,29 +87,34 @@ function createGame(option) {
     };
 }
 
-function joinGame(option, game) {
+function _joinGame(option) {
     return {
         type: 'joinGame',
-        data: new Game(option),
-        gameNumber: game,
-        meta: {
-            socket: {
-                channel: 'messagefromapp',
-            },
-        }
+        data: new Game(option)
     };
 }
 
-function generatePositions(option, game) {
-    return {
-        type: 'joinGame',
-        data: new Game(option),
-        gameNumber: game,
-        meta: {
-            socket: {
-                channel: 'messagefromapp',
-            },
+function joinGame(option, game) {
+    return (dispatch, getState, socket) => {
+        let data = {
+            type: 'joinGame',
+            gameNumber: game
         }
+        socket.emit('messagefromapp', data, function(res) {
+            if(res) {
+                console.log('join game res:', res);
+                dispatch(initializeContainer(res.cardsOnBoard, res.cardsOnHand));
+                dispatch(_joinGame(res));
+            }
+        });
+    };
+}
+
+function initializeContainer(cardsOnBoard, cardsOnHand) {
+    console.log('initializeContainer');
+    return {
+        type: 'initializeContainer',
+        data: new Container(cardsOnBoard, cardsOnHand)
     };
 }
 
@@ -101,6 +125,30 @@ function setInGame(option) {
     };
 }
 
+function test(option) {
+    console.log('nice!', option);
+    return {
+        type: 'test',
+        data: new Auth(option)
+    };
+}
+
+function setUser(action) {
+    console.log('inside SETUSER action');
+    action = {};
+    action.type = 'test';
+    return (dispatch, getState, socket) => {
+      // you can use api here
+      socket.emit('messagefromapp', action, function(res) {
+        console.log('ACTION before', action);
+        // let newOption = Object.assign(action.data.option, {isLoggedIn: true});
+        // action.data.option = newOption;
+        // console.log('ACTION option after', newOption);
+        return dispatch(test(res));
+    });
+    }
+  }
+
 export default {
     moveCard,
     permaMoveCard,
@@ -109,5 +157,6 @@ export default {
     getInfo,
     createGame,
     setInGame,
-    joinGame
+    joinGame,
+    setUser
 };

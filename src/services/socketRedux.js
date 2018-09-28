@@ -2,7 +2,6 @@ const socketIO = function (socket) {
     return function () {
         return function (next) {
             return function (action) {
-                console.log('Coolio action:', action);
                 if (action.meta && action.meta.socket && action.meta.socket.channel) {
                     
                     switch (action.type) {
@@ -45,6 +44,7 @@ const socketIO = function (socket) {
                                     cardsOnBoard: res.cardsOnBoard, userList: res.userList
                                 };
                                 console.log('new action', action);
+                                action.type = 'test';
                                 return next(action);
                             });
                             break;

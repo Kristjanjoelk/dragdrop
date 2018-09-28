@@ -2,19 +2,21 @@ import React, { Component } from 'react';
 import { browserHistory } from 'react-router';
 import store from '../../store';
 import todo from '../../control/todo';
+import actions from '../../actions';
 import './Login.css';
+import { connect } from 'react-redux';
 
 class Login extends Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
-        console.log('Inside handle submit mtherfcker');
-        todo['setUserName'].setUserName(store, this.username.value, function(err, res) {
-            if(!err) {
-                console.log('setting info from callback');
-                todo['getInfo'].getInfo(store, 'info test test');
-            }
-        });
+        this.props.dispatch(actions.setUserName(this.username.value, this.props.auth));
+        // todo['setUserName'].setUserName(store, this.username.value, function(err, res) {
+        //     if(!err) {
+        //         console.log('setting info from callback');
+        //         todo['getInfo'].getInfo(store, 'info test test');
+        //     }
+        // });
     };
     render() {
         return (
@@ -32,5 +34,7 @@ class Login extends Component {
         )
     }
 }
-
-export default Login;
+const mapStateToProps = (state) => ({
+    auth: state.get('auth')
+  });
+export default connect(mapStateToProps)(Login);

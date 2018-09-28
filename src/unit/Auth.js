@@ -6,7 +6,8 @@ class Auth {
 
     setUserName(username) {
         return {
-            isLoggedIn: this.option.isLoggedIn,
+            isLoggedIn: true,
+            isInGame: false,
             name: username
         };
     }

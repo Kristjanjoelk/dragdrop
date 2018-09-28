@@ -3,6 +3,8 @@ class Card {
         this.id = option.id;
         this.cLocation = option.cLocation;
         this.pLocation = option.pLocation;
+        this.text = option.text;
+        this.year = option.year;
         this.canCancel = option.canCancel;
         this.dummy = option.dummy ? option.dummy : false;
         this.color = option.color ? option.color : this.initColor();
@@ -25,17 +27,55 @@ class Container {
     constructor(option) {
       this.option = option;
 
-      // Because we dont want to init after finishin all cards
-      if(this.option.inHand !== -1 && !this.option.inHand.length) {
-          this.option.inHand = this.initPositions();
-      }
-      if(this.option.inHand === -1) {
-        this.option.inHand = [];
-      } 
-      else {
-          this.option.inHand = this.option.inHand;
-      }
+    //   // Because we dont want to init after finishin all cards
+    //   if(this.option.inHand !== -1 && !this.option.inHand.length) {
+    //       this.option.inHand = this.initPositions();
+    //   }
+    //   if(this.option.inHand === -1) {
+    //     this.option.inHand = [];
+    //   } 
+    //   else {
+    //       this.option.inHand = this.option.inHand;
+    //   }
     }
+    // inHand: [],
+    // inPlay: [],
+    // inHandCounter: 5,
+    // inPlayCounter: 0
+    initializeContainer(cardsOnBoard, cardsInHand) {
+        // TODO: if rejoining, check if cardsOnBoard.length > 1
+        let newInPlay = this.generatePositions(true, null, cardsOnBoard[0]);
+        let newInHand = this.generateManyPositions(false, null, cardsInHand);
+        return {
+            inHand: newInHand,
+            inPlay: newInPlay,
+            inHandCounter: 5,
+            inPlayCounter: 0
+        }
+    }
+
+    generateManyPositions(inPay, _cards, newCards) {
+        let yPos = -20;
+        let length = 5;
+        let firstPos = this.firstPos(length);
+        let cardsToReturn = [];
+
+        for(let i = 0; i < newCards.length; i++) {
+            let currentCard = newCards[i];
+            
+            cardsToReturn.push(new Card({
+                id: currentCard.id, 
+                text: currentCard.text,
+                year: currentCard.year,
+                cLocation: {'x': -firstPos - (i * (150 + 20)), 'y': yPos }, 
+                pLocation: {'x': -firstPos - (i * (150 + 20)), 'y': yPos },
+                canCancel: false
+            }));
+        }
+        console.log('cards created: ', cardsToReturn);
+        return cardsToReturn;
+    }
+
     generatePositions(inPlay, _cards, newCard) {
         if(!_cards.length && !newCard) {
             return -1;

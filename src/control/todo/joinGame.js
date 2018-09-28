@@ -11,6 +11,7 @@ const joinGame = (store, game) => {
             const nextAuth = curAuth.setInGame();
             const nextGame = curGame.joinGame(game);
             store.dispatch(actions.joinGame(nextGame, game));
+            console.log(nextGame);
             store.dispatch(actions.setInGame(nextAuth));
         } else {
             console.log('something wrong with curGame', curGame);
