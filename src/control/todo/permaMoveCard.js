@@ -5,7 +5,7 @@ const permaMoveCard = (store, card) => {
     if (store.getState().get('container') !== null) {
         const state = store.getState();
         const curContainer = state.get('container');
-        // console.log('state', state);
+        console.log('permaMoveCard', curContainer);
         if(curContainer) {
             const nextContainer = curContainer.permaMoveCard(card);
             // console.log(nextContainer);

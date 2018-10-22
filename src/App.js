@@ -18,7 +18,6 @@ class App extends Component {
       <div className='App'>
         { this.props.auth.option.isLoggedIn && 
           <Container 
-            container={this.props.container} 
             auth={this.props.auth} 
             info={this.props.info}
             game={this.props.game}
@@ -31,14 +30,12 @@ class App extends Component {
 }
 
 App.propTypes = {
-  container: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
   info: PropTypes.object.isRequired,
   game: PropTypes.object.isRequired
 };
 
 const mapStateToProps = (state) => ({
-  container: state.get('container'),
   auth: state.get('auth'),
   info: state.get('info'),
   game: state.get('game')

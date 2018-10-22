@@ -25,7 +25,10 @@ class Card {
 
 class Container {
     constructor(option) {
-      this.option = option;
+        this.inHand = option.inHand;
+        this.inPlay = option.inPlay;
+        this.inHandCounter = option.inHandCounter;
+        this.inPlayCounter = option.inPlayCounter;
 
     //   // Because we dont want to init after finishin all cards
     //   if(this.option.inHand !== -1 && !this.option.inHand.length) {
@@ -46,6 +49,9 @@ class Container {
         // TODO: if rejoining, check if cardsOnBoard.length > 1
         let newInPlay = this.generatePositions(true, null, cardsOnBoard[0]);
         let newInHand = this.generateManyPositions(false, null, cardsInHand);
+        console.log('doing that thing where I initialize cards');
+        console.log('NewinHand:', newInHand);
+        console.log('newInplay', newInPlay);
         return {
             inHand: newInHand,
             inPlay: newInPlay,
@@ -77,16 +83,16 @@ class Container {
     }
 
     generatePositions(inPlay, _cards, newCard) {
-        if(!_cards.length && !newCard) {
+        if(!_cards && !newCard) {
             return -1;
         }
         let yPos = inPlay ? -200 : -20;
-        let length = _cards.length ? _cards.length : 1;
+        let length = _cards ? _cards.length : 1;
         let firstPos = this.firstPos(length, true);
         let cards = [];
         let i = 0;
 
-        if(!_cards.length) {
+        if(!_cards) {
             cards.push(new Card({
                 id: newCard.id, 
                 cLocation: {'x': -firstPos, 'y': yPos }, 

@@ -19,6 +19,8 @@ const container = (state = initState, action) => {
             return action.data;
         case 'cancelCard':
             return action.data;
+        case 'initializeContainer':
+            return action.data;
         default:
             return state;
     }

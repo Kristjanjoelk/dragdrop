@@ -5,7 +5,7 @@ const moveCard = (store, card) => {
     if (store.getState().get('container') !== null) {
         const state = store.getState();
         const curContainer = state.get('container');
-        // console.log('state', state);
+        console.log('curContainer', curContainer);
         if(curContainer) {
             // console.log('THE CARD IM SUPPOSED TO MOVE', card);
             const nextContainer = curContainer.moveCard(card);

@@ -6,6 +6,7 @@ import GameList from './gamelist/GameList';
 import './Container.css';
 import store from '../../store';
 import todo from '../../control/todo';
+import { connect } from 'react-redux';
 
 class Container extends Component {
     constructor(props) {
@@ -45,7 +46,7 @@ class Container extends Component {
         let temp = null;
         // console.log('this.props.container', this.props.container);
 
-        this.props.container.option.inHand.map((el) => {
+        this.props.container.inHand.map((el) => {
             if(el.id === this.state.toggledCard) {
                 temp = Object.assign({}, el);
                 temp.cLocation.x = el.cLocation.x + self.lastSeen.x - e.nativeEvent.x;
@@ -80,7 +81,7 @@ class Container extends Component {
 
     render() {
 
-        // console.log('this.props.container', this.props.container);
+        console.log('this.props.container', this.props);
         return (
             
             <div className='Icontainer' onMouseMove={this.onMouseMove}>
@@ -88,13 +89,13 @@ class Container extends Component {
                     <GameList info={this.props.info}/> 
                 }
                 {   this.props.auth.option.isInGame && 
-                        this.props.game.option.cardsOnBoard.map(function(position, i) {
+                        this.props.container.inPlay.map(function(position, i) {
                             return <CardComponent key={i.toString()} number={i} updateMouse={this.updateMouse} card={position}/>;
                     }.bind(this))
                 }
                 <div className='CardContainer'>
                 { this.props.auth.option.isInGame &&
-                    this.props.container.option.inHand.map(function(position, i) {
+                    this.props.container.inHand.map(function(position, i) {
                         return <CardComponent key={i.toString()} number={i} updateMouse={this.updateMouse} card={position}/>;
                     }.bind(this))
                 }
@@ -107,8 +108,10 @@ class Container extends Component {
     }
 }
 
-Container.propTypes = {
-    info: PropTypes.object.isRequired
-};
 
-export default Container;
+const mapStateToProps = (state) => ({
+    container: state.get('container'),
+    info: state.get('info')
+  });
+export default connect(mapStateToProps)(Container);
+

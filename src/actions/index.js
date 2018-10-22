@@ -88,6 +88,7 @@ function createGame(option) {
 }
 
 function _joinGame(option) {
+    console.log('inside _join game. . .. . . .');
     return {
         type: 'joinGame',
         data: new Game(option)
@@ -111,10 +112,11 @@ function joinGame(option, game) {
 }
 
 function initializeContainer(cardsOnBoard, cardsOnHand) {
+    let newContainer = new Container({});
     console.log('initializeContainer');
     return {
         type: 'initializeContainer',
-        data: new Container(cardsOnBoard, cardsOnHand)
+        data: new Container(newContainer.initializeContainer(cardsOnBoard, cardsOnHand))
     };
 }
 
